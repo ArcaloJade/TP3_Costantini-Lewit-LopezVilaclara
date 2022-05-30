@@ -10,9 +10,12 @@ class Human(Player):
         self.tool = None
         self.alive = True
         self.face = '@'
+    
+    def __str__(self):
+        return f"{self.name} - {self.tool} - {self.weapon} - {self.hp}"
 
     def damage(self):
-        if self.sword:
+        if self.sword: # cambiar por if self.weapon == 'Sword'
             return random.random() * 20 + 5
         return random.random() * 10 + 1
 
@@ -22,3 +25,10 @@ class Human(Player):
 
     def has_sword(self):
         # completar
+        pass
+
+    '???'
+
+    def has_pickaxe(self):
+        print('me llamaron?')
+        self.tool = 'Pickaxe'

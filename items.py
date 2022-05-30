@@ -18,10 +18,10 @@ class Item:
 
 
 class Sword(Item):
-    def __init__(self, name: str, fc: str, min_dmg: numeric, max_dmg: numeric):
+    def __init__(self, name: str, fc: str): # Faltan argumentos, se los saqué temporalmente: min_dmg: numeric, max_dmg: numeric 
         super().__init__(name, fc, 'weapon')
-        self.min_dmg = min_dmg
-        self.max_dmg = max_dmg
+        # self.min_dmg = min_dmg
+        # self.max_dmg = max_dmg
 
 
 class Amulet(Item):

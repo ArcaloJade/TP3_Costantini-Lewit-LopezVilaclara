@@ -3,7 +3,7 @@ from typing import Union
 
 import mapping
 import player
-
+import human
 
 numeric = Union[int, float]
 
@@ -16,15 +16,18 @@ def clip(value: numeric, minimum: numeric, maximum: numeric) -> numeric:
     return value
 
 
-def attack(dungeon, player, ...): # completar
+def attack(dungeon, player): # completar
     # completar
     raise NotImplementedError
 
 
 def move_to(dungeon: mapping.Dungeon, player: player.Player, location: tuple[numeric, numeric]):
-    # completar
-    raise NotImplementedError
-
+    x = clip(location[0], 0, 79)
+    y = clip(location[1],0 , 24)
+    if dungeon.is_walkable(location):
+        player.move_to((x,y))
+    
+    
 
 def move_up(dungeon: mapping.Dungeon, player: player.Player):
     # completar
@@ -56,6 +59,15 @@ def descend_stair(dungeon: mapping.Dungeon, player: player.Player):
     raise NotImplementedError
 
 
-def pickup(dungeon: mapping.Dungeon, player: player.Player):
-    # completar
-    raise NotImplementedError
+def pickup(dungeon: mapping.Dungeon, player: human.Human):
+    location = player.loc()
+    item = dungeon.get_items(location)
+    print(item)
+    if item != []:
+        print('hola')
+        if 'Pickaxe' in item:
+            print('chau')
+            player.has_pickaxe()
+        elif 'Sword' in item:
+            player.has_sword()
+                
