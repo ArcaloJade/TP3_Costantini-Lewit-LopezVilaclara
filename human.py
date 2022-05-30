@@ -29,6 +29,10 @@ class Human(Player):
 
     '???'
 
-    def has_pickaxe(self):
-        print('me llamaron?')
-        self.tool = 'Pickaxe'
+    def set_pickaxe(self, item):
+        self.tool = item
+        # print(item)
+    
+    def set_sword(self, item):
+        self.weapon = item
+        # print(item)

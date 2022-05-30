@@ -10,6 +10,10 @@ class Item:
         self.face = fc
         self.type = type
 
+    def get_type(self):
+        '''Returns the type of the item'''
+        return self.type
+
     def __str__(self):
         return self.name
 

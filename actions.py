@@ -4,6 +4,7 @@ from typing import Union
 import mapping
 import player
 import human
+import items
 
 numeric = Union[int, float]
 
@@ -62,12 +63,9 @@ def descend_stair(dungeon: mapping.Dungeon, player: player.Player):
 def pickup(dungeon: mapping.Dungeon, player: human.Human):
     location = player.loc()
     item = dungeon.get_items(location)
-    print(item)
     if item != []:
-        print('hola')
-        if 'Pickaxe' in item:
-            print('chau')
-            player.has_pickaxe()
-        elif 'Sword' in item:
-            player.has_sword()
-                
+        type = item[0].get_type()
+        if type == 'tool':
+            player.set_pickaxe(item) # hay que guardar item ó item[0]?
+        elif type == 'weapon':
+            player.set_sword(item)
