@@ -12,7 +12,7 @@ class Human(Player):
         self.face = '@'
     
     def __str__(self):
-        return f"{self.name} - {self.tool} - {self.weapon} - {self.hp}"
+        return f"{self.name}\t\tHP: {self.hp}/{self.max_hp}\t\tTool: {self.tool}\t\tWeapon: {self.weapon}\t\tTreasure: {self.treasure}"
 
     def damage(self):
         if self.sword: # cambiar por if self.weapon == 'Sword'
