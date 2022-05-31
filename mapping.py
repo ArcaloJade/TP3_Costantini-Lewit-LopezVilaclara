@@ -3,7 +3,7 @@ from typing import Optional
 
 import player
 import items
-
+import gnome
 
 Location = tuple[int, int]
 
@@ -60,6 +60,7 @@ class Level:
         self.tiles = tiles
         self.rows, self.columns = rows, columns
         self.items = {}
+        self.gnomes = {}
 
     def find_free_tile(self) -> Location:
         """Randomly searches for a free location inside the level's map.
@@ -103,6 +104,15 @@ class Level:
         items = self.items.get((i, j), [])
         items.append(item)
         self.items[(i, j)] = items
+
+    def add_gnome(self, gnome: gnome.Gnome, location: Optional[Location] = None):
+        if location is None:
+            j, i = self.find_free_tile()
+        else:
+            j, i = location
+        gnomes = self.items.get((i, j), [])
+        gnomes.append(gnome)
+        self.gnomes[(i, j)] = gnomes
 
     def render(self, player: player.Player):
         """Draw the map onto the terminal, including player and items. Player must have a loc() method, returning its
@@ -239,6 +249,12 @@ class Dungeon:
             level = self.level + 1
         if 0 < level <= len(self.dungeon):
             self.dungeon[level - 1].add_item(item, xy)
+
+    def add_gnome(self, gnome = gnome.Gnome, level: Optional[int] = None, xy: Optional[Location] = None):
+        if level is None:
+            level = self.level + 1
+        if 0 < level <= len(self.dungeon):
+            self.dungeon[level - 1].add_item(gnome, xy)
 
     def loc(self, xy: Location) -> Tile:
         """Get the tile type at a give location."""

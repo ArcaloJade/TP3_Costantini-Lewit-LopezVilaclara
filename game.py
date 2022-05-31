@@ -5,23 +5,20 @@ import magic
 
 import random
 from human import Human
-import human
+from gnome import Gnome
 from items import Item, PickAxe, Sword, Amulet
 from mapping import Dungeon
 import actions
 
-
 ROWS = 25
 COLUMNS = 80
-
 
 if __name__ == "__main__":
     # initial parameters
     level = 0
     
-
     # initial locations may be random generated
-    gnomes = 0
+    # gnomes = 0
 
     dungeon = Dungeon(ROWS, COLUMNS, 3)
 
@@ -31,13 +28,18 @@ if __name__ == "__main__":
 
     turns = 0
 
+    # Items
     pickaxe = PickAxe('Pickaxe', '(')
     sword = Sword('Sword', '/')
     amulet = Amulet('Amulet', '"')
 
+    # Gnomes
+    gnome1 = Gnome('Gnome 1', dungeon.find_free_tile())
+
     dungeon.add_item(pickaxe, 1)
     dungeon.add_item(sword, 2)
     dungeon.add_item(amulet, 3)
+    dungeon.add_gnome(gnome1, 1)
 
     os = input('win or mac [w/m]')
 
@@ -46,7 +48,7 @@ if __name__ == "__main__":
             turns += 1
             # render map
             dungeon.render(player)
-            print(f"{player}\nTurns: {turns}\t\tLevel: {dungeon.level}")
+            # print(f"{player}\nTurns: {turns}\t\tLevel: {dungeon.level}")
             # dungeon.render() (Para el gnome, falta completar!)
             # read key
 
@@ -82,7 +84,8 @@ if __name__ == "__main__":
             turns += 1
             # render map
             dungeon.render(player)
-            print(f"{player}\nTurns: {turns}\t\tLevel: {dungeon.level}")
+            # print(f"{player}\nTurns: {turns}\t\tLevel: {dungeon.level}")
+            print(f"{player}\t\tHP: {player.hp}/{player.max_hp}\t\tTool: {player.tool}\t\tWeapon: {player.weapon}\nTurns: {turns}\tLevel: {dungeon.level + 1}\t\tTreasure:{player.treasure}")
             # dungeon.render() (Para el gnome, falta completar!)
             # read key
 
