@@ -53,13 +53,17 @@ def move_right(dungeon: mapping.Dungeon, player: player.Player):
 
 
 def climb_stair(dungeon: mapping.Dungeon, player: player.Player):
-    # completar
-    raise NotImplementedError
+    location = player.loc()
+    stair = dungeon.index(mapping.STAIR_UP)
+    if location == stair:
+        dungeon.level -= 1
 
 
 def descend_stair(dungeon: mapping.Dungeon, player: player.Player):
-    # completar
-    raise NotImplementedError
+    location = player.loc()
+    stair = dungeon.index(mapping.STAIR_DOWN)
+    if location == stair:
+        dungeon.level += 1
 
 
 def pickup(dungeon: mapping.Dungeon, player: human.Human):
