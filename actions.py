@@ -52,11 +52,20 @@ def move_right(dungeon: mapping.Dungeon, player: player.Player):
     raise NotImplementedError
 
 
-def climb_stair(dungeon: mapping.Dungeon, player: player.Player):
+def climb_stair(dungeon: mapping.Dungeon, player: human.Human):
     location = player.loc()
     stair = dungeon.index(mapping.STAIR_UP)
     if location == stair:
-        dungeon.level -= 1
+        if dungeon.level == 0:
+            dungeon.level -= 1
+            if player.treasure != None:
+                print('you won!')
+            else:
+                print('fracasado de mierda (puto)')
+        else:
+            dungeon.level -= 1
+            newstair = dungeon.index(mapping.STAIR_DOWN)
+            player.move_to(newstair)
 
 
 def descend_stair(dungeon: mapping.Dungeon, player: player.Player):
@@ -64,7 +73,8 @@ def descend_stair(dungeon: mapping.Dungeon, player: player.Player):
     stair = dungeon.index(mapping.STAIR_DOWN)
     if location == stair:
         dungeon.level += 1
-
+        newstair = dungeon.index(mapping.STAIR_UP)
+        player.move_to(newstair)
 
 def pickup(dungeon: mapping.Dungeon, player: human.Human):
     location = player.loc()
@@ -75,3 +85,5 @@ def pickup(dungeon: mapping.Dungeon, player: human.Human):
             player.tool = item[0]
         elif type == 'weapon':
             player.weapon = item[0]
+        elif type == 'treasure':
+            player.treasure = item[0]

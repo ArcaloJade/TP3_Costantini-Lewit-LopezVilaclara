@@ -5,6 +5,7 @@ import magic
 
 import random
 from human import Human
+import human
 from items import Item, PickAxe, Sword, Amulet
 from mapping import Dungeon
 import actions
@@ -45,7 +46,7 @@ if __name__ == "__main__":
             turns += 1
             # render map
             dungeon.render(player)
-            print(f"{player}\nTurns: {turns}\t\tLevel: ")
+            print(f"{player}\nTurns: {turns}\t\tLevel: {dungeon.level}")
             # dungeon.render() (Para el gnome, falta completar!)
             # read key
 
@@ -77,18 +78,17 @@ if __name__ == "__main__":
         # Salió del loop principal, termina el juego
 
     elif os == 'm':
-        while dungeon.level >= 0: # Mac
+        while dungeon.level >= 0:
             turns += 1
             # render map
             dungeon.render(player)
-            print(f"{player}\nTurns: {turns}\t\tLevel: ")
+            print(f"{player}\nTurns: {turns}\t\tLevel: {dungeon.level}")
             # dungeon.render() (Para el gnome, falta completar!)
             # read key
 
             key = magic.read_single_keypress()
             
             # Mac
-
             if key[0] == 'q':
                 break
             if key[0] == 'w':
