@@ -12,7 +12,7 @@ class Human(Player):
         self.face = '@'
     
     def __str__(self):
-        return f"{self.name}\t\tHP: {self.hp}/{self.max_hp}\t\tTool: {self.tool}\t\tWeapon: {self.weapon}\t\tTreasure: {self.treasure}"
+        return f"{self.name} - {self.tool} - {self.weapon} - {self.hp}"
 
     def damage(self):
         if self.sword: # cambiar por if self.weapon == 'Sword'
@@ -29,10 +29,16 @@ class Human(Player):
 
     '???'
 
-    def set_pickaxe(self, item):
-        self.tool = item
-        # print(item)
+    # def set_pickaxe(self, item):
+    #     self.tool = item
+    #     # print(item)
+
+    # def has_pickaxe(self):
+    #     if self.tool == None:
+    #         return False
+    #     else:
+    #         return True
     
-    def set_sword(self, item):
-        self.weapon = item
-        # print(item)
+    # def set_sword(self, item):
+    #     self.weapon = item
+    #     # print(item)

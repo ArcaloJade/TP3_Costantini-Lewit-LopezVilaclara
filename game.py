@@ -42,28 +42,29 @@ if __name__ == "__main__":
         turns += 1
         # render map
         dungeon.render(player)
-        print(f"{player}\nTurns: {turns}\t\tLevel: ")
         # dungeon.render() (Para el gnome, falta completar!)
         # read key
 
-        # key = magic.read_single_keypress()
+        key = magic.read_single_keypress()
 
-        key2 = input()
+        # key = input()
         
-        if key2[0] == 'q':
+        if key[0] == 'q':
             break
 
-        if key2[0] == 'w':
+        if key[0] == 'w':
             actions.move_to(dungeon, player, (player.x, player.y - 1))
-        elif key2[0] == 'a':
+        elif key[0] == 'a':
             actions.move_to(dungeon, player, (player.x - 1, player.y))
-        elif key2[0] == 's':
+        elif key[0] == 's':
             actions.move_to(dungeon, player, (player.x, player.y + 1))
-        elif key2[0] == 'd':
+        elif key[0] == 'd':
             actions.move_to(dungeon, player, (player.x + 1, player.y))
-        elif key2[0] == 'p':
+        elif key[0] == 'p':
             actions.pickup(dungeon, player)
             # Pick up an object
+        elif key[0] == '`':
+            print(player)
         
         # Hacer algo con keys:
         # move player and/or gnomes
