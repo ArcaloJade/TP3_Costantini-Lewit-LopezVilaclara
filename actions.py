@@ -27,8 +27,10 @@ def move_to(dungeon: mapping.Dungeon, player: player.Player, location: tuple[num
     y = clip(location[1],0 , 24)
     if dungeon.is_walkable(location):
         player.move_to((x,y))
-    
-    
+    else:
+        if player.tool != None:
+            dungeon.dig((x,y))
+            
 
 def move_up(dungeon: mapping.Dungeon, player: player.Player):
     # completar
@@ -65,7 +67,7 @@ def pickup(dungeon: mapping.Dungeon, player: human.Human):
     item = dungeon.get_items(location)
     if item != []:
         type = item[0].get_type()
-        if type == 'tool':
-            player.set_pickaxe(item) # hay que guardar item ó item[0]?
+        if item[0].type == 'tool':
+            player.tool = item[0]
         elif type == 'weapon':
-            player.set_sword(item)
+            player.weapon = item[0]
