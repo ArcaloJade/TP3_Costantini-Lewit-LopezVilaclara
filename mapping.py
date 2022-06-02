@@ -105,16 +105,16 @@ class Level:
         items.append(item)
         self.items[(i, j)] = items
 
-    def add_gnome(self, gnome: gnome.Gnome, location: Optional[Location] = None):
-        if location is None:
-            j, i = self.find_free_tile()
-        else:
-            j, i = location
-        gnomes = self.items.get((i, j), [])
-        gnomes.append(gnome)
-        self.gnomes[(i, j)] = gnomes
+    # def add_gnome(self, gnome: gnome.Gnome, location: Optional[Location] = None):
+    #     if location is None:
+    #         j, i = self.find_free_tile()
+    #     else:
+    #         j, i = location
+    #     gnomes = self.items.get((i, j), [])
+    #     gnomes.append(gnome)
+    #     self.gnomes[(i, j)] = gnomes
 
-    def render(self, player: player.Player):
+    def render(self, player: player.Player, gnome: player.Player):
         """Draw the map onto the terminal, including player and items. Player must have a loc() method, returning its
         location, and a face attribute. All items in the map must have a face attribute which is going to be shown. If
         there are multiple items in one location, only one will be rendered.
@@ -126,6 +126,8 @@ class Level:
             for j, cell in enumerate(row):
                 if (j, i) == player.loc():
                     print(player.face, end='')
+                elif (j, i) == gnome.loc():
+                    print(gnome.face, end='')
                 elif (i, j) in self.items:
                     print(self.items[(i, j)][0].face, end='')
                 else:
@@ -224,12 +226,12 @@ class Dungeon:
         # Ubicar escalera del nivel inferior
         self.dungeon[-1].add_stair_up(self.stairs_up[-1])
 
-    def render(self, player: player.Player):
+    def render(self, player: player.Player, gnome):
         """Draw current level onto the terminal, including player and items. Player must have a loc() method, returning
         its location, and a face attribute. All items in the map must have a face attribute which is going to be shown.
         If there are multiple items in one location, only one will be rendered.
         """
-        self.dungeon[self.level].render(player)
+        self.dungeon[self.level].render(player, gnome)
 
     def find_free_tile(self) -> Location:
         """Randomly searches for a free location inside the level's map.
@@ -250,11 +252,11 @@ class Dungeon:
         if 0 < level <= len(self.dungeon):
             self.dungeon[level - 1].add_item(item, xy)
 
-    def add_gnome(self, gnome = gnome.Gnome, level: Optional[int] = None, xy: Optional[Location] = None):
-        if level is None:
-            level = self.level + 1
-        if 0 < level <= len(self.dungeon):
-            self.dungeon[level - 1].add_item(gnome, xy)
+    # def add_gnome(self, gnome = gnome.Gnome, level: Optional[int] = None, xy: Optional[Location] = None):
+    #     if level is None:
+    #         level = self.level + 1
+    #     if 0 < level <= len(self.dungeon):
+    #         self.dungeon[level - 1].add_item(gnome, xy)
 
     def loc(self, xy: Location) -> Tile:
         """Get the tile type at a give location."""
