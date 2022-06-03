@@ -25,7 +25,6 @@ if __name__ == "__main__":
     # Agregarle cosas al dungeon, cosas que no se creen automáticamente al crearlo (por ejemplo, ya se crearon las escaleras).
 
     player = Human(input("Player?: "), dungeon.find_free_tile())
-
     turns = 0
 
     # Items
@@ -39,7 +38,7 @@ if __name__ == "__main__":
     dungeon.add_item(pickaxe, 1)
     dungeon.add_item(sword, 2)
     dungeon.add_item(amulet, 3)
-    # dungeon.add_gnome(gnome1, 1)
+    dungeon.add_gnome(gnome1, 1)
 
     os = input('win or mac [w/m]')
 
@@ -49,6 +48,7 @@ if __name__ == "__main__":
             # render map
             dungeon.render(player)
             # print(f"{player}\nTurns: {turns}\t\tLevel: {dungeon.level}")
+            print(f"{player}\t\tHP: {player.hp}/{player.max_hp}\t\tTool: {player.tool}\t\tWeapon: {player.weapon}\nTurns: {turns}\tLevel: {dungeon.level + 1}\t\tTreasure:{player.treasure}")
             # dungeon.render() (Para el gnome, falta completar!)
             # read key
 
@@ -72,6 +72,8 @@ if __name__ == "__main__":
                 actions.climb_stair(dungeon, player)
             elif key2 == 'v':
                 actions.descend_stair(dungeon, player)
+                
+            gnome1.move_gnome()
                 # Pick up an object
             
             # Hacer algo con keys:
@@ -83,7 +85,7 @@ if __name__ == "__main__":
         while dungeon.level >= 0:
             turns += 1
             # render map
-            dungeon.render(player, gnome1)
+            dungeon.render(player)
             # print(f"{player}\nTurns: {turns}\t\tLevel: {dungeon.level}")
             print(f"{player}\t\tHP: {player.hp}/{player.max_hp}\t\tTool: {player.tool}\t\tWeapon: {player.weapon}\nTurns: {turns}\tLevel: {dungeon.level + 1}\t\tTreasure:{player.treasure}")
             # dungeon.render() (Para el gnome, falta completar!)
@@ -109,6 +111,7 @@ if __name__ == "__main__":
             elif key[0] == 'v':
                 actions.descend_stair(dungeon, player)
             
+            gnome1.move_gnome()
             # Hacer algo con keys:
             # move player and/or gnomes
 
