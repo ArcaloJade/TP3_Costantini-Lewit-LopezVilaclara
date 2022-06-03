@@ -70,11 +70,12 @@ def climb_stair(dungeon: mapping.Dungeon, player: human.Human):
 
 def descend_stair(dungeon: mapping.Dungeon, player: player.Player):
     location = player.loc()
-    stair = dungeon.index(mapping.STAIR_DOWN)
-    if location == stair:
-        dungeon.level += 1
-        newstair = dungeon.index(mapping.STAIR_UP)
-        player.move_to(newstair)
+    if dungeon.level < 2:
+        stair = dungeon.index(mapping.STAIR_DOWN)
+        if location == stair:
+            dungeon.level += 1
+            newstair = dungeon.index(mapping.STAIR_UP)
+            player.move_to(newstair)
 
 def pickup(dungeon: mapping.Dungeon, player: human.Human):
     location = player.loc()
