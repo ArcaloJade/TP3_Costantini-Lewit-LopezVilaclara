@@ -178,10 +178,12 @@ class Level:
         if self.tiles[i][j] is WALL:
             self.tiles[i][j] = AIR
 
-    def is_free(self, xy: Location) -> bool:
+    def is_free(self, xy: Location, entity) -> bool:
         """Check if a given location is free of other entities."""
-        # completar
-        raise NotImplementedError
+        entityloc = entity.loc()
+        if xy != entityloc:
+            return True
+        return False
 
     def are_connected(self, initial: Location, end: Location) -> bool:
         """Check if there is walkable path between initial location and end location."""
@@ -275,6 +277,11 @@ class Dungeon:
         """Replace a WALL at the given location, by AIR. See Level.dig()."""
         return self.dungeon[self.level].dig(xy)
 
-    def is_free(self, xy: Location) -> bool:
+    def is_free(self, xy: Location, entity) -> bool:
         """NOT IMPLEMENTED. Check if a given location is free of other entities. See Level.is_free()."""
-        return self.dungeon[self.level].is_free(xy)
+        return self.dungeon[self.level].is_free(xy, entity)
+    
+    def enemy_alive(self, enemy) -> bool:
+        if enemy.hp == 0:
+            return False
+        return True

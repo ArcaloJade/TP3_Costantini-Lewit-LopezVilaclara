@@ -1,6 +1,7 @@
 from player import Player
 import actions
 import random
+import mapping
 
 class Gnome(Player):
     def __init__(self, name, xy, prev_loc = None):
@@ -8,12 +9,17 @@ class Gnome(Player):
         self.face = 'G'
         self.type = 'gnome'
         self.prev_loc = prev_loc
+        self.alive = True
 
     def get_type(self):
         '''Returns the type of the item'''
         return self.type
+    
+    def attack(self, player):
+        dmg = random.randint(5, 10)
+        player.hp -= dmg
 
-    def move(self, dungeon):
+    def move(self, dungeon, player):
         walkable = []
         for i in range(4):
             x, y = self.x, self.y
@@ -30,8 +36,16 @@ class Gnome(Player):
             if dungeon.is_walkable((x,y)) and not (x == self.x and y == self.y) and ((x,y) != self.prev_loc):
                 walkable.append((x,y))
         new_loc = random.choice(walkable)
-        self.prev_loc = (self.x, self.y)
-        self.x, self.y = new_loc[0], new_loc[1]
+        if dungeon.is_free(new_loc, player) == True:
+            self.prev_loc = (self.x, self.y)
+            self.x, self.y = new_loc[0], new_loc[1]
+        else:
+            actions.gnome_attack(player)
+            
+    def kill(self):
+        self.hp = 0
+        self.alive = False
+        self.face = '%'
             
 
         # if dungeon.is_walkable(location):

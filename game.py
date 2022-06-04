@@ -59,13 +59,13 @@ if __name__ == "__main__":
             if key2 == 'q':
                 break
             if key2 == 'w':
-                actions.move_to(dungeon, player, (player.x, player.y - 1))
+                actions.move_to(dungeon, player, (player.x, player.y - 1), gnome1)
             elif key2 == 'a':
-                actions.move_to(dungeon, player, (player.x - 1, player.y))
+                actions.move_to(dungeon, player, (player.x - 1, player.y), gnome1)
             elif key2 == 's':
-                actions.move_to(dungeon, player, (player.x, player.y + 1))
+                actions.move_to(dungeon, player, (player.x, player.y + 1), gnome1)
             elif key2 == 'd':
-                actions.move_to(dungeon, player, (player.x + 1, player.y))
+                actions.move_to(dungeon, player, (player.x + 1, player.y), gnome1)
             elif key2 == 'p':
                 actions.pickup(dungeon, player)
             elif key2 == 'u':
@@ -74,11 +74,15 @@ if __name__ == "__main__":
                 actions.descend_stair(dungeon, player)
                 # Pick up an object
 
-            gnome1.move(dungeon)
+            if dungeon.enemy_alive(gnome1) == True:
+                gnome1.move(dungeon, player)
+            
+            # print(player.hp)
+            # print(gnome1.hp)
             
     # Mac
     elif os == 'm':
-        while dungeon.level >= 0:
+        while dungeon.level >= 0 and player.hp > 0:
             turns += 1
             # render map
             dungeon.render(player, gnome1)
@@ -92,13 +96,13 @@ if __name__ == "__main__":
             if key[0] == 'q':
                 break
             if key[0] == 'w':
-                actions.move_to(dungeon, player, (player.x, player.y - 1))
+                actions.move_to(dungeon, player, (player.x, player.y - 1), gnome1)
             elif key[0] == 'a':
-                actions.move_to(dungeon, player, (player.x - 1, player.y))
+                actions.move_to(dungeon, player, (player.x - 1, player.y), gnome1)
             elif key[0] == 's':
-                actions.move_to(dungeon, player, (player.x, player.y + 1))
+                actions.move_to(dungeon, player, (player.x, player.y + 1), gnome1)
             elif key[0] == 'd':
-                actions.move_to(dungeon, player, (player.x + 1, player.y))
+                actions.move_to(dungeon, player, (player.x + 1, player.y), gnome1)
             elif key[0] == 'p':
                 actions.pickup(dungeon, player)
             elif key[0] == 'u':
@@ -106,7 +110,8 @@ if __name__ == "__main__":
             elif key[0] == 'v':
                 actions.descend_stair(dungeon, player)
             
-            gnome1.move(dungeon)
+            if dungeon.enemy_alive(gnome1) == True:
+                gnome1.move(dungeon, player)
 
             # Hacer algo con keys:
             # move player and/or gnomes

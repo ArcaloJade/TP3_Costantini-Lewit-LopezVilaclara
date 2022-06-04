@@ -5,6 +5,7 @@ import mapping
 import player
 import human
 import items
+import random
 
 numeric = Union[int, float]
 
@@ -17,16 +18,34 @@ def clip(value: numeric, minimum: numeric, maximum: numeric) -> numeric:
     return value
 
 
-def attack(dungeon, player): # completar
-    # completar
-    raise NotImplementedError
+def attack(player, enemy):
+    if player.weapon == None:
+        dmg = random.randint(1, 5)
+    else:
+        dmg = random.randint(10, 15)
+    enemy.hp -= dmg
+    if enemy.hp <= 0:
+        enemy.kill()
+        
+def gnome_attack(player):
+    dmg = random.randint(5, 10)
+    player.hp -= dmg
+    if player.hp <= 0:
+        player.kill()
+        print('You were slain...')
 
 
-def move_to(dungeon: mapping.Dungeon, player: player.Player, location: tuple[numeric, numeric]):
+def move_to(dungeon: mapping.Dungeon, player: player.Player, location: tuple[numeric, numeric], enemy):
     x = clip(location[0], 0, 79)
     y = clip(location[1],0 , 24)
     if dungeon.is_walkable(location):
-        player.move_to((x,y))
+        if dungeon.is_free(location, enemy) == True:
+            player.move_to((x,y))
+        else:
+            if enemy.face != '%':
+                attack(player, enemy)
+            else:
+                player.move_to((x,y))
     else:
         if player.tool != None:
             dungeon.dig((x,y))
