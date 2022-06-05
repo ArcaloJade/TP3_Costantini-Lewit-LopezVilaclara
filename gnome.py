@@ -33,9 +33,14 @@ class Gnome(Player):
                 y -= 1
             x = actions.clip(x, 0, 79)
             y = actions.clip(y, 0, 24)
-            if dungeon.is_walkable((x,y)) and not (x == self.x and y == self.y) and ((x,y) != self.prev_loc):
+            if dungeon.is_walkable((x,y)) and not (x == self.x and y == self.y):
                 walkable.append((x,y))
-        new_loc = random.choice(walkable)
+        if len(walkable) > 1:
+            if self.prev_loc != None:
+                walkable.remove(self.prev_loc)
+            new_loc = random.choice(walkable)
+        elif len(walkable) == 1:
+            new_loc = walkable[0]
         if dungeon.is_free(new_loc, player) == True:
             self.prev_loc = (self.x, self.y)
             self.x, self.y = new_loc[0], new_loc[1]
