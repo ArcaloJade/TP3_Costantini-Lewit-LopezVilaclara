@@ -78,13 +78,13 @@ if __name__ == "__main__":
             if key2 == 'q':
                 break
             if key2 == 'w':
-                actions.move_to(dungeon, player, (player.x, player.y - 1), enemy)
+                actions.move_to(dungeon, player, (player.x, player.y - 1), enemy, phantom)
             elif key2 == 'a':
-                actions.move_to(dungeon, player, (player.x - 1, player.y), enemy)
+                actions.move_to(dungeon, player, (player.x - 1, player.y), enemy, phantom)
             elif key2 == 's':
-                actions.move_to(dungeon, player, (player.x, player.y + 1), enemy)
+                actions.move_to(dungeon, player, (player.x, player.y + 1), enemy, phantom)
             elif key2 == 'd':
-                actions.move_to(dungeon, player, (player.x + 1, player.y), enemy)
+                actions.move_to(dungeon, player, (player.x + 1, player.y), enemy, phantom)
             elif key2 == 'p':
                 actions.pickup(dungeon, player)
             elif key2 == 'u':
@@ -96,6 +96,9 @@ if __name__ == "__main__":
             if dungeon.enemy_alive(enemy) == True:
                 enemy.move(dungeon, player)
             
+            if dungeon.enemy_alive(phantom) == True:
+                phantom.move(dungeon, player)
+
             # print(player.hp)
             # print(gnome1.hp)
             

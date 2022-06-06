@@ -316,6 +316,8 @@ class Dungeon:
         return self.dungeon[self.level].get_path(initial, end, dungeon, path, traversed)
     
     def enemy_alive(self, enemy) -> bool:
+        if enemy is None:
+            return False
         if enemy.hp == 0:
             return False
         return True
