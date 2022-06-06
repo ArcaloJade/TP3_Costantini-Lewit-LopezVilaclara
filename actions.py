@@ -35,15 +35,20 @@ def gnome_attack(player):
         print('You were slain...')
 
 
-def move_to(dungeon: mapping.Dungeon, player: player.Player, location: tuple[numeric, numeric], enemy):
+def move_to(dungeon: mapping.Dungeon, player: player.Player, location: tuple[numeric, numeric], gnome, phantom):
     x = clip(location[0], 0, 79)
     y = clip(location[1],0 , 24)
     if dungeon.is_walkable(location):
-        if dungeon.is_free(location, enemy) == True:
+        if dungeon.is_free(location, gnome) == True and dungeon.is_free(location, phantom) == True:
             player.move_to((x,y))
-        else:
-            if enemy.face != '%':
-                attack(player, enemy)
+        elif dungeon.is_free(location, gnome) == False:
+            if gnome.face != '%':
+                attack(player, gnome)
+            else:
+                player.move_to((x,y))
+        elif dungeon.is_free(location, phantom) == False:
+            if phantom.face != '%':
+                attack(player, phantom)
             else:
                 player.move_to((x,y))
     else:

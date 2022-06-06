@@ -6,6 +6,7 @@ import magic
 import random
 from human import Human
 from gnome import Gnome
+from phantom import Phantom
 from items import Item, PickAxe, Sword, Amulet
 from mapping import Dungeon
 import actions
@@ -38,7 +39,8 @@ if __name__ == "__main__":
     gnome2 = Gnome('Gnome 2', dungeon.find_free_tile())
     gnome3 = Gnome('Gnome 3', dungeon.find_free_tile())
 
-    gnomes = (gnome1, gnome2, gnome3)
+    # Phantom
+    phantom1 = Phantom('Phantom 1', dungeon.find_free_tile())
     
     # Items
     dungeon.add_item(pickaxe, 1)
@@ -56,11 +58,14 @@ if __name__ == "__main__":
             
             if dungeon.level == 0:
                 enemy = gnome1
+                phantom = None
             elif dungeon.level == 1:
                 enemy = gnome2
+                phantom = None
             elif dungeon.level == 2:
-                enemy = gnome3            
-            
+                enemy = gnome3
+                phantom = phantom1
+
             # enemy = gnomes[dungeon.level]
 
             dungeon.render(player, enemy)
@@ -69,7 +74,7 @@ if __name__ == "__main__":
 
             key2 = input()
 
-            dungeon.render(player, enemy)
+            dungeon.render(player, enemy, phantom)
             if key2 == 'q':
                 break
             if key2 == 'w':
@@ -101,14 +106,17 @@ if __name__ == "__main__":
 
             if dungeon.level == 0:
                 enemy = gnome1
+                phantom = None
             elif dungeon.level == 1:
                 enemy = gnome2
+                phantom = None
             elif dungeon.level == 2:
-                enemy = gnome3            
+                enemy = gnome3
+                phantom = phantom1           
             
             # enemy = gnomes[dungeon.level]
 
-            dungeon.render(player, enemy)
+            dungeon.render(player, enemy, phantom)
 
             print(f"{player}\t\tHP: {player.hp}/{player.max_hp}\t\tTool: {player.tool}\t\tWeapon: {player.weapon}\nTurns: {turns}\tLevel: {dungeon.level + 1}\t\tTreasure:{player.treasure}")
 
@@ -117,13 +125,13 @@ if __name__ == "__main__":
             if key[0] == 'q':
                 break
             if key[0] == 'w':
-                actions.move_to(dungeon, player, (player.x, player.y - 1), enemy)
+                actions.move_to(dungeon, player, (player.x, player.y - 1), enemy, phantom)
             elif key[0] == 'a':
-                actions.move_to(dungeon, player, (player.x - 1, player.y), enemy)
+                actions.move_to(dungeon, player, (player.x - 1, player.y), enemy, phantom)
             elif key[0] == 's':
-                actions.move_to(dungeon, player, (player.x, player.y + 1), enemy)
+                actions.move_to(dungeon, player, (player.x, player.y + 1), enemy, phantom)
             elif key[0] == 'd':
-                actions.move_to(dungeon, player, (player.x + 1, player.y), enemy)
+                actions.move_to(dungeon, player, (player.x + 1, player.y), enemy, phantom)
             elif key[0] == 'p':
                 actions.pickup(dungeon, player)
             elif key[0] == 'u':
@@ -133,6 +141,9 @@ if __name__ == "__main__":
             
             if dungeon.enemy_alive(enemy) == True:
                 enemy.move(dungeon, player)
+
+            if dungeon.enemy_alive(phantom) == True:
+                phantom.move(dungeon, player)
 
             # Hacer algo con keys:
             # move player and/or gnomes

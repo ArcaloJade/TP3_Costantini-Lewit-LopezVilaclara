@@ -113,7 +113,7 @@ class Level:
     #     gnomes.append(gnome)
     #     self.gnomes[(i, j)] = gnomes
 
-    def render(self, player: player.Player, gnome: player.Player):
+    def render(self, player: player.Player, gnome: player.Player, phantom):
         """Draw the map onto the terminal, including player and items. Player must have a loc() method, returning its
         location, and a face attribute. All items in the map must have a face attribute which is going to be shown. If
         there are multiple items in one location, only one will be rendered.
@@ -127,6 +127,8 @@ class Level:
                     print(player.face, end='')
                 elif (j, i) == gnome.loc():
                     print(gnome.face, end='')
+                elif phantom != None and (j, i) == phantom.loc():
+                    print(phantom.face, end='')
                 elif (i, j) in self.items:
                     print(self.items[(i, j)][0].face, end='')
                 else:
@@ -180,6 +182,8 @@ class Level:
 
     def is_free(self, xy: Location, entity) -> bool:
         """Check if a given location is free of other entities."""
+        if entity == None:
+            return True
         entityloc = entity.loc()
         if xy != entityloc:
             return True
@@ -190,31 +194,33 @@ class Level:
         raise NotImplementedError
             
 
-    def get_path(self, initial: Location, end: Location, path = [], traversed = []) -> bool:
+    def get_path(self, initial: Location, end: Location, dungeon, path = [], traversed = []) -> bool:
         """Return a sequence of locations between initial location and end location, if it exits."""
         if (initial in path) or (initial in traversed):
             return None
         if initial is end:
             return path.append(end)
         path.append(initial)
-        if (initial.x + 1).is_walkable() == True: # Derecha
-            initial.x += 1
-            r = self.get_path(initial, end, path, traversed)
+        new_initial = (initial[0] + 1, initial[1])
+        print(new_initial)
+        if dungeon.is_walkable((initial[0] + 1, initial[1])) == True: # Derecha
+            new_initial = (initial[0] + 1, initial[1])
+            r = self.get_path(new_initial, end, path, traversed)
             if r != None:
                 return r
-        elif (initial.x - 1).is_walkable() == True: # Izquierda
-            initial.x -= 1
-            r = self.get_path(initial, end, path, traversed)
+        elif dungeon.is_walkable((initial[0] - 1, initial[1])) == True: # Izquierda
+            new_initial = (initial[0] - 1, initial[1])
+            r = self.get_path(new_initial, end, path, traversed)
             if r != None:
                 return r
-        elif (initial.y + 1).is_walkable() == True: # Abajo
-            initial.y += 1
-            r = self.get_path(initial, end, path, traversed)
+        elif dungeon.is_walkable((initial[0], initial[1] + 1)) == True: # Abajo
+            new_initial = (initial[0], initial[1] + 1)
+            r = self.get_path(new_initial, end, path, traversed)
             if r != None:
                 return r
-        elif (initial.y - 1).is_walkable() == True: # Arriba
-            initial.y -= 1
-            r = self.get_path(initial, end, path, traversed)
+        elif dungeon.is_walkable((initial[0], initial[1] - 1)) == True: # Arriba
+            new_initial = (initial[0], initial[1] - 1)
+            r = self.get_path(new_initial, end, path, traversed)
             if r != None:
                 return r
         path.remove(initial)
@@ -252,12 +258,12 @@ class Dungeon:
         # Ubicar escalera del nivel inferior
         self.dungeon[-1].add_stair_up(self.stairs_up[-1])
 
-    def render(self, player: player.Player, gnome):
+    def render(self, player: player.Player, gnome, phantom):
         """Draw current level onto the terminal, including player and items. Player must have a loc() method, returning
         its location, and a face attribute. All items in the map must have a face attribute which is going to be shown.
         If there are multiple items in one location, only one will be rendered.
         """
-        self.dungeon[self.level].render(player, gnome)
+        self.dungeon[self.level].render(player, gnome, phantom)
 
     def find_free_tile(self) -> Location:
         """Randomly searches for a free location inside the level's map.
@@ -305,6 +311,9 @@ class Dungeon:
     def is_free(self, xy: Location, entity) -> bool:
         """NOT IMPLEMENTED. Check if a given location is free of other entities. See Level.is_free()."""
         return self.dungeon[self.level].is_free(xy, entity)
+
+    def get_path(self, initial: Location, end: Location, dungeon, path = [], traversed = []) -> bool:
+        return self.dungeon[self.level].get_path(initial, end, dungeon, path, traversed)
     
     def enemy_alive(self, enemy) -> bool:
         if enemy.hp == 0:
