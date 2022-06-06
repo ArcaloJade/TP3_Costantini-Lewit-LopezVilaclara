@@ -20,29 +20,37 @@ class Gnome(Player):
         player.hp -= dmg
 
     def move(self, dungeon, player):
-        walkable = []
-        for i in range(4):
-            x, y = self.x, self.y
-            if i == 0:
-                x += 1
-            elif i == 1:
-                x -= 1
-            elif i == 2:
-                y += 1
-            elif i == 3:
-                y -= 1
-            x = actions.clip(x, 0, 79)
-            y = actions.clip(y, 0, 24)
-            if dungeon.is_walkable((x,y)) and not (x == self.x and y == self.y):
-                walkable.append((x,y))
-        if len(walkable) > 1:
-            if self.prev_loc != None:
-                walkable.remove(self.prev_loc)
-            new_loc = random.choice(walkable)
-        elif len(walkable) == 1:
-            new_loc = walkable[0]
-        if dungeon.is_free(new_loc, player) == True:
-            self.prev_loc = (self.x, self.y)
+        # walkable = []
+        # for i in range(4):
+        #     x, y = self.x, self.y
+        #     if i == 0:
+        #         x += 1
+        #     elif i == 1:
+        #         x -= 1
+        #     elif i == 2:
+        #         y += 1
+        #     elif i == 3:
+        #         y -= 1
+        #     x = actions.clip(x, 0, 79)
+        #     y = actions.clip(y, 0, 24)
+        #     if dungeon.is_walkable((x,y)) and not (x == self.x and y == self.y):
+        #         walkable.append((x,y))
+        # if len(walkable) > 1:
+        #     if self.prev_loc != None:
+        #         walkable.remove(self.prev_loc)
+        #     new_loc = random.choice(walkable)
+        # elif len(walkable) == 1:
+        #     new_loc = walkable[0]
+        # else:
+        #     new_loc = (self.x, self.y)
+        # if dungeon.is_free(new_loc, player) == True:
+        #     self.prev_loc = (self.x, self.y)
+        #     self.x, self.y = new_loc[0], new_loc[1]
+        # else:
+        initial_loc = (self.x, self.y)
+        final_loc = (player.x, player.y)
+        new_loc = (mapping.Level.get_path(initial_loc, final_loc))[0]
+        if mapping.Level.is_free(new_loc, player) == True:
             self.x, self.y = new_loc[0], new_loc[1]
         else:
             actions.gnome_attack(player)

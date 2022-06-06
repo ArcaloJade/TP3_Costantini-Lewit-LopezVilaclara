@@ -35,8 +35,8 @@ if __name__ == "__main__":
 
     # Gnomes
     gnome1 = Gnome('Gnome 1', dungeon.find_free_tile())
-    gnome2 = Gnome('Gnome 1', dungeon.find_free_tile())
-    gnome3 = Gnome('Gnome 1', dungeon.find_free_tile())
+    gnome2 = Gnome('Gnome 2', dungeon.find_free_tile())
+    gnome3 = Gnome('Gnome 3', dungeon.find_free_tile())
 
     gnomes = (gnome1, gnome2, gnome3)
     
