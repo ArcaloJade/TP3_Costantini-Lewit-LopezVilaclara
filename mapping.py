@@ -190,42 +190,81 @@ class Level:
         return False
 
     def are_connected(self, initial: Location, end: Location) -> bool:
-        """Check if there is walkable path between initial location and end location."""
-        raise NotImplementedError
-            
+        if self.get_path(initial, end) == '':
+            return False
+        return True
 
-    def get_path(self, initial: Location, end: Location, dungeon, path = [], traversed = []) -> bool:
-        """Return a sequence of locations between initial location and end location, if it exits."""
+    def get_path(self, initial: Location, end: Location, path = [], traversed = []):
         if (initial in path) or (initial in traversed):
-            return None
-        if initial is end:
-            return path.append(end)
+            return []
+        if initial == end:
+            path.append(end)
+            return path
         path.append(initial)
-        new_initial = (initial[0] + 1, initial[1])
-        print(new_initial)
-        if dungeon.is_walkable((initial[0] + 1, initial[1])) == True: # Derecha
+        if initial[0] + 1 < 80 and self.is_walkable((initial[0] + 1, initial[1])) == True:
             new_initial = (initial[0] + 1, initial[1])
             r = self.get_path(new_initial, end, path, traversed)
-            if r != None:
+            if r != []:
                 return r
-        elif dungeon.is_walkable((initial[0] - 1, initial[1])) == True: # Izquierda
+        if initial[0] - 1 > 0 and self.is_walkable((initial[0] - 1, initial[1])) == True:
             new_initial = (initial[0] - 1, initial[1])
             r = self.get_path(new_initial, end, path, traversed)
-            if r != None:
+            if r != []:
                 return r
-        elif dungeon.is_walkable((initial[0], initial[1] + 1)) == True: # Abajo
+        if initial[1] + 1 < 25 and self.is_walkable((initial[0], initial[1] + 1)) == True:
             new_initial = (initial[0], initial[1] + 1)
             r = self.get_path(new_initial, end, path, traversed)
-            if r != None:
+            if r != []:
                 return r
-        elif dungeon.is_walkable((initial[0], initial[1] - 1)) == True: # Arriba
+        if initial[1] - 1 >= 0 and self.is_walkable((initial[0], initial[1] - 1)) == True:
             new_initial = (initial[0], initial[1] - 1)
             r = self.get_path(new_initial, end, path, traversed)
-            if r != None:
+            if r != []:
                 return r
         path.remove(initial)
         traversed.append(initial)
-        return None
+        return [] 
+
+
+    # def get_path(self, initial: Location, end: Location, path = [], traversed = []) -> bool:
+    #     """Return a sequence of locations between initial location and end location, if it exits."""
+    #     if (initial in path) or (initial in traversed):
+    #         return ''
+    #     if initial == end:
+    #         return path.append(end)
+    #     path.append(initial)
+    #     if initial[0] + 1 < self.columns:
+    #         if self.is_walkable((initial[0] + 1, initial[1])) == True: # Derecha
+    #             print(path)
+    #             new_initial = (initial[0] + 1, initial[1])
+    #             r = self.get_path(new_initial, end, path, traversed)
+    #             if r != '':
+    #                 return r
+    #     elif initial[0] > 1:
+    #         if self.is_walkable((initial[0] - 1, initial[1])) == True: # Izquierda
+    #             print(path)
+    #             new_initial = (initial[0] - 1, initial[1])
+    #             r = self.get_path(new_initial, end, path, traversed)
+    #             if r != '':
+    #                 return r
+    #     elif initial[1] < 24:
+    #         if self.is_walkable((initial[0], initial[1] + 1)) == True: # Abajo
+    #             print(path)
+    #             new_initial = (initial[0], initial[1] + 1)
+    #             r = self.get_path(new_initial, end, path, traversed)
+    #             if r != '':
+    #                 return r
+    #     elif initial[1] >= 0:
+    #         if self.is_walkable((initial[0], initial[1] - 1)) == True: # Arriba
+    #             print(path)
+    #             new_initial = (initial[0], initial[1] - 1)
+    #             r = self.get_path(new_initial, end, path, traversed)
+    #             if r != '':
+    #                 return r
+    #     path.remove(initial)
+    #     traversed.append(initial)
+    #     print(traversed)
+    #     return ''
 
 class Dungeon:
     """Dungeon(rows: int, columns: int, levels: int = 3) -> Dungeon
@@ -312,8 +351,11 @@ class Dungeon:
         """NOT IMPLEMENTED. Check if a given location is free of other entities. See Level.is_free()."""
         return self.dungeon[self.level].is_free(xy, entity)
 
-    def get_path(self, initial: Location, end: Location, dungeon, path = [], traversed = []) -> bool:
-        return self.dungeon[self.level].get_path(initial, end, dungeon, path, traversed)
+    def are_connected(self, initial: Location, end: Location) -> bool:
+        return self.dungeon[self.level].are_connected(initial, end)
+
+    def get_path(self, initial: Location, end: Location, path = [], traversed = []):
+        return self.dungeon[self.level].get_path(initial, end, path, traversed)
     
     def enemy_alive(self, enemy) -> bool:
         if enemy is None:

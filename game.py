@@ -43,7 +43,12 @@ if __name__ == "__main__":
     phantom1 = Phantom('Phantom 1', dungeon.find_free_tile())
     
     # Items
-    dungeon.add_item(pickaxe, 1)
+    pickaxe_location = dungeon.find_free_tile()
+    while not dungeon.are_connected(pickaxe_location, (player.x, player.y)):
+        pickaxe_location = dungeon.find_free_tile()
+    print(dungeon.are_connected(pickaxe_location, (player.x, player.y)))
+
+    dungeon.add_item(pickaxe, 1, pickaxe_location)
     dungeon.add_item(sword, 2)
     dungeon.add_item(amulet, 3)
 
@@ -134,15 +139,15 @@ if __name__ == "__main__":
                 phantom = phantom1           
             
             if dungeon.level != 2:
-                print(f"Gnome: {enemy.hp}/{enemy.max_hp}")
+                print(f"\n\n\nGnome: {enemy.hp}/{enemy.max_hp}")
             else:
-                print(f"Gnome: {enemy.hp}/{enemy.max_hp}\t\t\tPhantom: {phantom.hp}/{phantom.max_hp}")
+                print(f"\n\n\nGnome: {enemy.hp}/{enemy.max_hp}\t\t\tPhantom: {phantom.hp}/{phantom.max_hp}")
             
             # enemy = gnomes[dungeon.level]
 
             dungeon.render(player, enemy, phantom)
 
-            print(f"{player}\t\tHP: {player.hp}/{player.max_hp}\t\tTool: {player.tool}\t\tWeapon: {player.weapon}\nTurns: {turns}\tLevel: {dungeon.level + 1}\t\tTreasure:{player.treasure}")
+            print(f"{player}\t\tHP: {player.hp}/{player.max_hp}\t\tTool: {player.tool}\t\tWeapon: {player.weapon}\nTurns: {turns}\tLevel: {dungeon.level + 1}\t\tTreasure: {player.treasure}")
 
             key = magic.read_single_keypress()
 
@@ -176,7 +181,10 @@ if __name__ == "__main__":
                 print("A phantom has found its new home.")
                 
         if player.alive == True and dungeon.level < 0 and player.treasure != None:
-            if gnome1.alive == False and gnome2.alive == False and gnome3.alive == False and phantom1.alive == False:
+            if gnome1.alive == False and gnome2.alive == False and gnome3.alive == False and phantom1.alive == False and player.hp == 50:
+                print("\nYou've won an achievement: PERFECT GENOCIDAL.\nYou've killed every entity in the dungeon without losing a single life.")
+            elif gnome1.alive == False and gnome2.alive == False and gnome3.alive == False and phantom1.alive == False and player.hp != 50:
                 print("\nYou've won an achievement: GENOCIDAL.\nYou've killed every entity in the dungeon.")
             elif gnome1.alive == True and gnome2.alive == True and gnome3.alive == True and phantom1.alive == True:
                 print("\nYou've won an achievement: PACIFIST.\nYou left the dungeon without killing any entity.")
+            # elif gnome1.alive == False and gnome2.alive == False and gnome3.alive == False and phantom1.alive == True:

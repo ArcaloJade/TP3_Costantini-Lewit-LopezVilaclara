@@ -36,7 +36,7 @@ class Gnome(Player):
             if dungeon.is_walkable((x,y)) and not (x == self.x and y == self.y):
                 walkable.append((x,y))
         if len(walkable) > 1:
-            if self.prev_loc != None:
+            if self.prev_loc in walkable:
                 walkable.remove(self.prev_loc)
             new_loc = random.choice(walkable)
         elif len(walkable) == 1:
