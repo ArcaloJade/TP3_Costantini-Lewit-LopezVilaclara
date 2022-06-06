@@ -52,7 +52,7 @@ if __name__ == "__main__":
 
     # Windows
     if os == 'w':
-        while dungeon.level >= 0:
+        while dungeon.level >= 0 and player.alive == True:
             turns += 1
             # render map
             
@@ -67,10 +67,15 @@ if __name__ == "__main__":
                 phantom = phantom1
 
             # enemy = gnomes[dungeon.level]
+            
+            # print(f"Gnome 1: {gnome1.hp}/{gnome1.max_hp}/t/t/tGnome 2: {gnome2.hp}/{gnome2.max_hp}/t/t/tGnome 3: {gnome3.hp}/{gnome3.max_hp}/t/t/tPhantom: {phantom.hp}/{phantom.max_hp}")
+            if dungeon.level != 2:
+                print(f"Gnome: {enemy.hp}/{enemy.max_hp}")
+            else:
+                print(f"Gnome: {enemy.hp}/{enemy.max_hp}\t\t\tPhantom: {phantom.hp}/{phantom.max_hp}")
+            dungeon.render(player, enemy, phantom)
 
-            dungeon.render(player, enemy)
-
-            print(f"{player}\t\tHP: {player.hp}/{player.max_hp}\t\tTool: {player.tool}\t\tWeapon: {player.weapon}\nTurns: {turns}\tLevel: {dungeon.level + 1}\t\tTreasure:{player.treasure}")
+            print(f"{player}\t\tHP: {player.hp}/{player.max_hp}\t\tTool: {player.tool}\t\tWeapon: {player.weapon}\nTurns: {turns}\tLevel: {dungeon.level + 1}\t\tTreasure: {player.treasure}")
 
             key2 = input()
 
@@ -101,10 +106,15 @@ if __name__ == "__main__":
 
             # print(player.hp)
             # print(gnome1.hp)
+        if player.alive == False:
+            if dungeon.level != 2:
+                print("The gnomes rejoice at your tragic death.")
+            else:
+                print("A phantom has found its new home.")
             
     # Mac
     elif os == 'm':
-        while dungeon.level >= 0 and player.hp > 0:
+        while dungeon.level >= 0 and player.alive == True:
             turns += 1            
 
             if dungeon.level == 0:
@@ -116,6 +126,11 @@ if __name__ == "__main__":
             elif dungeon.level == 2:
                 enemy = gnome3
                 phantom = phantom1           
+            
+            if dungeon.level != 2:
+                print(f"Gnome: {enemy.hp}/{enemy.max_hp}")
+            else:
+                print(f"Gnome: {enemy.hp}/{enemy.max_hp}\t\t\tPhantom: {phantom.hp}/{phantom.max_hp}")
             
             # enemy = gnomes[dungeon.level]
 
@@ -148,7 +163,8 @@ if __name__ == "__main__":
             if dungeon.enemy_alive(phantom) == True:
                 phantom.move(dungeon, player)
 
-            # Hacer algo con keys:
-            # move player and/or gnomes
-
-        # Salió del loop principal, termina el juego
+        if player.alive == False:
+            if dungeon.level != 2:
+                print("The gnomes rejoice at your tragic death.")
+            else:
+                print("A phantom has found its new home.")

@@ -83,9 +83,23 @@ def climb_stair(dungeon: mapping.Dungeon, player: human.Human):
         if dungeon.level == 0:
             dungeon.level -= 1
             if player.treasure != None:
-                print('you won!')
+                print(f"You recovered the treasure, {player}!\nBards will sing of your bravery for centuries to come!")
             else:
-                print('fracasado de mierda (puto)')
+                print("You returned to the village without any treasure...")
+                endings = [1, 2, 3, 4, 5]
+                pick = random.choice(endings)
+                if pick == 1:
+                    print("You have no money to pay your debts, and end up poor and destitute...")
+                elif pick == 2:
+                    print("The angry mob sends you back to the dungeon. The gnomes and phantoms prove to be too much to handle...")
+                elif pick == 3:
+                    print("You give your King a fake treasure. Your trick is successful, but the village is soon raided and no one survives...")
+                elif pick == 4:
+                    print("Ashamed by your deed, your entire family abandons you.")
+                elif pick == 5:
+                    print("Imperial forces take control of the amulet instead, and use it to turn the entire village into ashes.")
+                else:
+                    print("Did you think hacking the system would let you win?\nYou poor fool...\nYou die a horrible death for the scum you are.")
         else:
             dungeon.level -= 1
             newstair = dungeon.index(mapping.STAIR_DOWN)
