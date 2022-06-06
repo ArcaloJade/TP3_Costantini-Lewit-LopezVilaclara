@@ -112,6 +112,12 @@ if __name__ == "__main__":
             else:
                 print("A phantom has found its new home.")
             
+        if player.alive == True and dungeon.level < 0 and player.treasure != None:
+            if gnome1.alive == False and gnome2.alive == False and gnome3.alive == False and phantom.alive == False:
+                print("\nYou've won an achievement: GENOCIDAL.\nYou've killed every entity in the dungeon.")
+            elif gnome1.alive == True and gnome2.alive == True and gnome3.alive == True and phantom.alive == True:
+                print("\nYou've won an achievement: PACIFIST.\nYou left the dungeon without killing any entity.")
+            
     # Mac
     elif os == 'm':
         while dungeon.level >= 0 and player.alive == True:
@@ -168,3 +174,9 @@ if __name__ == "__main__":
                 print("The gnomes rejoice at your tragic death.")
             else:
                 print("A phantom has found its new home.")
+                
+        if player.alive == True and dungeon.level < 0 and player.treasure != None:
+            if gnome1.alive == False and gnome2.alive == False and gnome3.alive == False and phantom1.alive == False:
+                print("\nYou've won an achievement: GENOCIDAL.\nYou've killed every entity in the dungeon.")
+            elif gnome1.alive == True and gnome2.alive == True and gnome3.alive == True and phantom1.alive == True:
+                print("\nYou've won an achievement: PACIFIST.\nYou left the dungeon without killing any entity.")
