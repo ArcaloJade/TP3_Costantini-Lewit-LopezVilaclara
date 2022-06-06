@@ -187,14 +187,39 @@ class Level:
 
     def are_connected(self, initial: Location, end: Location) -> bool:
         """Check if there is walkable path between initial location and end location."""
-        # completar
         raise NotImplementedError
+            
 
-    def get_path(self, initial: Location, end: Location) -> bool:
+    def get_path(self, initial: Location, end: Location, path = [], traversed = []) -> bool:
         """Return a sequence of locations between initial location and end location, if it exits."""
-        # completar
-        raise NotImplementedError
-
+        if (initial in path) or (initial in traversed):
+            return None
+        if initial is end:
+            return path.append(end)
+        path.append(initial)
+        if (initial.x + 1).is_walkable() == True: # Derecha
+            initial.x += 1
+            r = self.get_path(initial, end, path, traversed)
+            if r != None:
+                return r
+        elif (initial.x - 1).is_walkable() == True: # Izquierda
+            initial.x -= 1
+            r = self.get_path(initial, end, path, traversed)
+            if r != None:
+                return r
+        elif (initial.y + 1).is_walkable() == True: # Abajo
+            initial.y += 1
+            r = self.get_path(initial, end, path, traversed)
+            if r != None:
+                return r
+        elif (initial.y - 1).is_walkable() == True: # Arriba
+            initial.y -= 1
+            r = self.get_path(initial, end, path, traversed)
+            if r != None:
+                return r
+        path.remove(initial)
+        traversed.append(initial)
+        return None
 
 class Dungeon:
     """Dungeon(rows: int, columns: int, levels: int = 3) -> Dungeon
