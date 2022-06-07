@@ -105,6 +105,18 @@ def climb_stair(dungeon: mapping.Dungeon, player: human.Human):
             newstair = dungeon.index(mapping.STAIR_DOWN)
             player.move_to(newstair)
 
+def lose_message(player: human.Human):
+    endings = [
+    "You have no money to pay your debts, and end up poor and destitute...",
+    "The angry mob sends you back to the dungeon. The gnomes and phantoms prove to be too much to handle...",
+    "You give your King a fake treasure. Your trick is successful, but the village is soon raided and no one survives...",
+    "Ashamed by your deed, your entire family abandons you.",
+    "Imperial forces take control of the amulet instead, and use it to turn the entire village into ashes.",
+    ]
+    if player.treasure != None:
+        print(f"You recovered the treasure, {player}!\nBards will sing of your bravery for centuries to come!")
+    else:
+        print(random.choice(endings))
 
 def descend_stair(dungeon: mapping.Dungeon, player: player.Player):
     location = player.loc()

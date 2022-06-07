@@ -190,7 +190,7 @@ class Level:
         return False
 
     def are_connected(self, initial: Location, end: Location) -> bool:
-        if self.get_path(initial, end) == '':
+        if self.get_path(initial, end) == []:
             return False
         return True
 

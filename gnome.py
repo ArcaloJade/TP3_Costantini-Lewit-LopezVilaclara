@@ -35,21 +35,20 @@ class Gnome(Player):
             y = actions.clip(y, 0, 24)
             if dungeon.is_walkable((x,y)) and not (x == self.x and y == self.y):
                 walkable.append((x,y))
-        if len(walkable) > 1:
-            if self.prev_loc in walkable:
-                walkable.remove(self.prev_loc)
-            new_loc = random.choice(walkable)
-        elif len(walkable) == 1:
-            new_loc = walkable[0]
+        if (player.x, player.y) in walkable:
+            actions.gnome_attack(player)
         else:
-            new_loc = (self.x, self.y)
-        if dungeon.is_free(new_loc, player) == True:
+            if len(walkable) > 1:
+                if self.prev_loc in walkable:
+                    walkable.remove(self.prev_loc)
+                new_loc = random.choice(walkable)
+            elif len(walkable) == 1:
+                new_loc = walkable[0]
+            else:
+                new_loc = (self.x, self.y)
             self.prev_loc = (self.x, self.y)
             self.x, self.y = new_loc[0], new_loc[1]
-        else:
-            actions.gnome_attack(player)
-
-
+        
         # initial_loc = (self.x, self.y)
         # final_loc = (player.x, player.y)
         # new_loc_list = (dungeon.get_path(initial_loc, final_loc, dungeon))

@@ -44,10 +44,8 @@ if __name__ == "__main__":
     
     # Items
     pickaxe_location = dungeon.find_free_tile()
-    while not dungeon.are_connected(pickaxe_location, (player.x, player.y)):
+    while dungeon.are_connected(pickaxe_location, (player.x, player.y)) == False:
         pickaxe_location = dungeon.find_free_tile()
-    print(dungeon.are_connected(pickaxe_location, (player.x, player.y)))
-
     dungeon.add_item(pickaxe, 1, pickaxe_location)
     dungeon.add_item(sword, 2)
     dungeon.add_item(amulet, 3)
@@ -120,8 +118,12 @@ if __name__ == "__main__":
         if player.alive == True and dungeon.level < 0 and player.treasure != None:
             if gnome1.alive == False and gnome2.alive == False and gnome3.alive == False and phantom.alive == False:
                 print("\nYou've won an achievement: GENOCIDAL.\nYou've killed every entity in the dungeon.")
-            elif gnome1.alive == True and gnome2.alive == True and gnome3.alive == True and phantom.alive == True:
+            if gnome1.alive == True and gnome2.alive == True and gnome3.alive == True and phantom.alive == True:
                 print("\nYou've won an achievement: PACIFIST.\nYou left the dungeon without killing any entity.")
+            if player.weapon == None:
+                print("\nYou've won an achievement: DAREDEVIL.\nYou've won without even picking up the sword.")
+            # if player.hp == 50:
+                
             
     # Mac
     elif os == 'm':
