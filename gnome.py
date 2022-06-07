@@ -5,7 +5,7 @@ import mapping
 
 class Gnome(Player):
     def __init__(self, name, xy, prev_loc = None):
-        super().__init__(name, xy, 50)
+        super().__init__(name, xy, 35)
         self.face = 'G'
         self.type = 'gnome'
         self.prev_loc = prev_loc

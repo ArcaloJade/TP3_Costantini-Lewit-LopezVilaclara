@@ -28,6 +28,13 @@ def attack(player, enemy):
         enemy.kill()
         
 def gnome_attack(player):
+    dmg = random.randint(2, 6)
+    player.hp -= dmg
+    if player.hp <= 0:
+        player.kill()
+        print('You were slain...')
+        
+def phantom_attack(player):
     dmg = random.randint(5, 10)
     player.hp -= dmg
     if player.hp <= 0:
