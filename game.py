@@ -122,7 +122,10 @@ if __name__ == "__main__":
                 print("\nYou've won an achievement: PACIFIST.\nYou left the dungeon without killing any entity.")
             if player.weapon == None:
                 print("\nYou've won an achievement: DAREDEVIL.\nYou've won without even picking up the sword.")
-            # if player.hp == 50:
+            if player.hp == 50:
+                print("\nYou've won an achievement: UNSCATHED.\nYou've escaped with te treasure without being hurt.")
+            if player.hp == 1:
+                print("\nYou've won an achievement: DIVINE INTERVENTION.\nThe gods have blessed you. You escaped with 1/50 HP.")
                 
             
     # Mac
